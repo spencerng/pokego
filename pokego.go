@@ -1,18 +1,18 @@
 package main
 
 import (
-	"unicode";
-	"bufio";
-	"os";
-	"fmt";
-	"os/exec";
-	"log";
-	"encoding/json";
-	"io/ioutil";
+	"bufio"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"os/exec"
 	"strings"
+	"unicode"
 )
 
-type StringDict = map[string]interface{}
+type StringDict map[string]interface{}
 
 func getKeywordsMap() StringDict {
 	jsonFile, _ := os.Open("dict.json")
@@ -68,7 +68,9 @@ func convertString(str string, keywords StringDict) string {
 	for k, v := range keywords {
 		i := strings.Index(str, k)
 		if i != -1 {
-			if (i == 0 || !isAlphaNum(runeStr[i - 1])) && (i + len(k) == len(str) - 1 || !isAlphaNum(runeStr[i + len(k)])) {
+			startValid := i == 0 || !isAlphaNum(runeStr[i-1])
+			endValid := i+len(k) == len(str)-1 || !isAlphaNum(runeStr[i+len(k)])
+			if startValid && endValid {
 				v := v.(string)
 				str = strings.Replace(str, k, v, 1)
 				return convertString(str, keywords)
@@ -80,7 +82,7 @@ func convertString(str string, keywords StringDict) string {
 }
 
 func convertFile(filename string, keywords StringDict) string {
-	
+
 	lines := readFile(filename)
 	var newLines []string
 
@@ -88,7 +90,7 @@ func convertFile(filename string, keywords StringDict) string {
 		tokens := strings.Split(line, "\"")
 
 		for i := range tokens {
-			if i % 2 == 1 {
+			if i%2 == 1 {
 				continue
 			}
 
@@ -117,15 +119,22 @@ func main() {
 	newArgs, sourceNames := parseArgs()
 	keywords := getKeywordsMap()
 	for i := range sourceNames {
-		newContents := convertFile(sourceNames[i] + ".pgo", keywords)
-		writeFile(sourceNames[i] + ".go", newContents)
+		newContents := convertFile(sourceNames[i]+".pgo", keywords)
+		writeFile(sourceNames[i]+".go", newContents)
 	}
 
-	out, err := exec.Command("go", newArgs...).Output()
+	cmd := exec.Command("go", newArgs...)
+	var out bytes.Buffer
+	var errout bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &errout
+	err := cmd.Run()
+
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("%s", errout.String())
+	} else {
+		fmt.Printf("%s", out.String())
 	}
-	fmt.Printf("%s", out)
 
 	for i := range sourceNames {
 		deleteFile(sourceNames[i] + ".go")

@@ -1,6 +1,6 @@
 # pokego
 
-A deliberately-poor Python wrapper for Go featuring Pokémon names and types as keywords in the language.
+A deliberately-poor Go wrapper to write Go programs with Pokémon names and types as keywords in the language.
 
 Created by Jannotta House for UChicago's 2020 Scav item #85:
 
