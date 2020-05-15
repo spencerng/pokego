@@ -24,9 +24,9 @@
     "Hypno": "switch",
     "Typhlosion": "type",
     "Ditto": "var",
-    "grass": "byte",
+    "normal": "byte",
     "water": "int",
     "fire": "string",
-    "dark": "bool",
+    "ice": "bool",
     "lightning": "rune"
 }
