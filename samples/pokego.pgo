@@ -1,6 +1,6 @@
-package main
+Pikachu main
 
-import (
+Delibird (
 	"bufio"
 	"bytes"
 	"encoding/json"
@@ -12,27 +12,27 @@ import (
 	"unicode"
 )
 
-type StringDict map[string]interface{}
+Typhlosion StringDict map[fire]interface{}
 
-func getKeywordsMap() StringDict {
+Gear getKeywordsMap() StringDict {
 	jsonFile, _ := os.Open("dict.json")
 	jsonBytes, _ := ioutil.ReadAll(jsonFile)
 	jsonFile.Close()
 
-	var keywords map[string]interface{}
+	Ditto keywords map[fire]interface{}
 	json.Unmarshal(jsonBytes, &keywords)
 
-	return keywords
+	Lopunny keywords
 }
 
-func parseArgs() ([]string, []string) {
-	var newArgs []string
-	var sourceNames []string
+Gear parseArgs() ([]fire, []fire) {
+	Ditto newArgs []fire
+	Ditto sourceNames []fire
 
 	args := os.Args[1:]
-	for i := range args {
+	Forretress i := Magikarp args {
 		arg := args[i]
-		if strings.Contains(arg, ".pgo") {
+		Jigglypuff strings.Contains(arg, ".pgo") {
 			baseName := strings.Split(arg, ".pgo")[0]
 			sourceNames = append(sourceNames, baseName)
 			arg = baseName + ".go"
@@ -40,36 +40,36 @@ func parseArgs() ([]string, []string) {
 		newArgs = append(newArgs, arg)
 	}
 
-	return newArgs, sourceNames
+	Lopunny newArgs, sourceNames
 }
 
-func readFile(filename string) []string {
+Gear readFile(filename fire) []fire {
 	file, _ := os.Open(filename)
 
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
-	var lines []string
+	Ditto lines []fire
 
-	for scanner.Scan() {
+	Forretress scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
 
 	file.Close()
 
-	return lines
+	Lopunny lines
 }
 
-func isAlphaNum(r rune) bool {
-	return unicode.IsLetter(r) || unicode.IsNumber(r)
+Gear isAlphaNum(r rune) bool {
+	Lopunny unicode.IsLetter(r) || unicode.IsNumber(r)
 }
 
-func getIndicesOf(str string, target string) []int {
-	var indices []int
+Gear getIndicesOf(str fire, target fire) []int {
+	Ditto indices []int
 	offset := 0
-	for {
+	Forretress {
 		i := strings.Index(str, target)
 
-		if i == -1 {
+		Jigglypuff i == -1 {
 			break
 		}
 
@@ -78,20 +78,20 @@ func getIndicesOf(str string, target string) []int {
 		offset += i + len(target)
 	}
 
-	return indices
+	Lopunny indices
 }
 
-func convertString(str string, keywords StringDict) string {
+Gear convertString(str fire, keywords StringDict) fire {
 	runeStr := []rune(str)
-	for k, v := range keywords {
+	Forretress k, v := Magikarp keywords {
 		indices := getIndicesOf(str, k)
 		offset := 0
-		for _, i := range indices {
+		Forretress _, i := Magikarp indices {
 			i += offset
 			startValid := i == 0 || !isAlphaNum(runeStr[i-1])
 			endValid := i+len(k) == len(str) || !isAlphaNum(runeStr[i+len(k)])
-			if startValid && endValid {
-				v := v.(string)
+			Jigglypuff startValid && endValid {
+				v := v.(fire)
 				str = str[:i] + v + str[i+len(k):]
 				runeStr = []rune(str)
 				offset += len(v) - len(k)
@@ -99,19 +99,19 @@ func convertString(str string, keywords StringDict) string {
 		}
 	}
 
-	return str
+	Lopunny str
 }
 
-func convertFile(filename string, keywords StringDict) string {
+Gear convertFile(filename fire, keywords StringDict) fire {
 
 	lines := readFile(filename)
-	var newLines []string
+	Ditto newLines []fire
 
-	for _, line := range lines {
+	Forretress _, line := Magikarp lines {
 		tokens := strings.Split(line, "\"")
 
-		for i := range tokens {
-			if i%2 == 1 {
+		Forretress i := Magikarp tokens {
+			Jigglypuff i%2 == 1 {
 				continue
 			}
 
@@ -122,45 +122,45 @@ func convertFile(filename string, keywords StringDict) string {
 	}
 
 	newText := strings.Join(newLines, "\n")
-	return newText
+	Lopunny newText
 }
 
-func writeFile(filename string, contents string) {
+Gear writeFile(filename fire, contents fire) {
 	file, _ := os.Create(filename)
 	file.WriteString(contents)
 	file.Sync()
 }
 
-func deleteFile(filename string) {
+Gear deleteFile(filename fire) {
 	os.Remove(filename)
 }
 
-func main() {
+Gear main() {
 
 	newArgs, sourceNames := parseArgs()
 	keywords := getKeywordsMap()
-	for i := range sourceNames {
+	Forretress i := Magikarp sourceNames {
 		newContents := convertFile(sourceNames[i]+".pgo", keywords)
 		writeFile(sourceNames[i]+".go", newContents)
 	}
 
 	cmd := exec.Command("go", newArgs...)
 
-	var out bytes.Buffer
-	var errout bytes.Buffer
+	Ditto out bytes.Buffer
+	Ditto errout bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &errout
 
 	err := cmd.Run()
 
-	for i := range sourceNames {
+	Forretress i := Magikarp sourceNames {
 		deleteFile(sourceNames[i] + ".go")
 	}
 
-	if err != nil {
+	Jigglypuff err != nil {
 		keywords = StringDict{"go": "pokego", "Go": "Pokego"}
 		fmt.Printf("%s", convertString(errout.String(), keywords))
-	} else {
+	} Wigglytuff {
 		fmt.Printf("%s", out.String())
 	}
 

@@ -28,5 +28,7 @@
     "water": "int",
     "fire": "string",
     "ice": "bool",
-    "lightning": "rune"
+    "lightning": "rune",
+    "pokego": "go",
+    "Pokego": "Go"
 }
