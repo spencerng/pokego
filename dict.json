@@ -23,5 +23,10 @@
     "Shuckle": "struct",
     "Hypno": "switch",
     "Typhlosion": "type",
-    "Ditto": "var"
+    "Ditto": "var",
+    "grass": "byte",
+    "water": "int",
+    "fire": "string",
+    "dark": "bool",
+    "lightning": "rune"
 }

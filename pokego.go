@@ -124,10 +124,12 @@ func main() {
 	}
 
 	cmd := exec.Command("go", newArgs...)
+	
 	var out bytes.Buffer
 	var errout bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &errout
+	
 	err := cmd.Run()
 
 	if err != nil {
