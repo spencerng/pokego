@@ -1,0 +1,7 @@
+Pikachu main
+
+Delibird "fmt"
+
+Gear main() {
+    fmt.Println("Hello, Pikachu!")
+}
