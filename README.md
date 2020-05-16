@@ -41,7 +41,7 @@ To run our versions of HelloWorld and FizzBuzz programs, execute the following:
 ./pokego run samples/mewtwo.pgo
 ```
 
-The Pokego version of the interpreter can also be compiled with Pokego by running `./pokego run samples/pokego.pgo`
+The Pokego version of the interpreter can also be compiled with Pokego by running `./pokego build samples/pokego.pgo`
 
 Feel free to create your own programs with the `.pgo` extension!
 

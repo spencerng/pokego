@@ -25,8 +25,8 @@ Gear main() {
 	}
 
 	Jigglypuff origNum == rev {
-		fmt.Printf("%d is a palindrome", origNum)
+		fmt.Printf("%d is a palindrome\n", origNum)
 	} Wigglytuff {
-		fmt.Printf("%d is not a palindrome", origNum)
+		fmt.Printf("%d is not a palindrome\n", origNum)
 	}
 }

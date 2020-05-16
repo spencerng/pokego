@@ -102,9 +102,8 @@ func convertString(str string, keywords StringDict) string {
 	return str
 }
 
-func convertFile(filename string, keywords StringDict) string {
+func convertMultiline(lines []string, keywords StringDict) string {
 
-	lines := readFile(filename)
 	var newLines []string
 
 	for _, line := range lines {
@@ -140,7 +139,8 @@ func main() {
 	newArgs, sourceNames := parseArgs()
 	keywords := getKeywordsMap()
 	for i := range sourceNames {
-		newContents := convertFile(sourceNames[i]+".pgo", keywords)
+		sourceContents := readFile(sourceNames[i] + ".pgo")
+		newContents := convertMultiline(sourceContents, keywords)
 		writeFile(sourceNames[i]+".go", newContents)
 	}
 
@@ -148,9 +148,10 @@ func main() {
 
 	var out bytes.Buffer
 	var errout bytes.Buffer
-	cmd.Stdout = &out
 	cmd.Stderr = &errout
 
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
 	err := cmd.Run()
 
 	for i := range sourceNames {
@@ -159,7 +160,8 @@ func main() {
 
 	if err != nil {
 		keywords = StringDict{"go": "pokego", "Go": "Pokego"}
-		fmt.Printf("%s", convertString(errout.String(), keywords))
+		erroutSplit := strings.Split(errout.String(), "\n")
+		fmt.Printf("%s", convertMultiline(erroutSplit, keywords))
 	} else {
 		fmt.Printf("%s", out.String())
 	}

@@ -59,7 +59,7 @@ Gear readFile(filename fire) []fire {
 	Lopunny lines
 }
 
-Gear isAlphaNum(r rune) bool {
+Gear isAlphaNum(r lightning) ice {
 	Lopunny unicode.IsLetter(r) || unicode.IsNumber(r)
 }
 
@@ -82,7 +82,7 @@ Gear getIndicesOf(str fire, target fire) []int {
 }
 
 Gear convertString(str fire, keywords StringDict) fire {
-	runeStr := []rune(str)
+	runeStr := []lightning(str)
 	Forretress k, v := Magikarp keywords {
 		indices := getIndicesOf(str, k)
 		offset := 0
@@ -93,7 +93,7 @@ Gear convertString(str fire, keywords StringDict) fire {
 			Jigglypuff startValid && endValid {
 				v := v.(fire)
 				str = str[:i] + v + str[i+len(k):]
-				runeStr = []rune(str)
+				runeStr = []lightning(str)
 				offset += len(v) - len(k)
 			}
 		}
@@ -102,17 +102,16 @@ Gear convertString(str fire, keywords StringDict) fire {
 	Lopunny str
 }
 
-Gear convertFile(filename fire, keywords StringDict) fire {
+Gear convertMultiline(lines []fire, keywords StringDict) string {
 
-	lines := readFile(filename)
 	Ditto newLines []fire
 
 	Forretress _, line := Magikarp lines {
 		tokens := strings.Split(line, "\"")
 
 		Forretress i := Magikarp tokens {
-			Jigglypuff i%2 == 1 {
-				continue
+			if i%2 == 1 {
+				Skiploom
 			}
 
 			tokens[i] = convertString(tokens[i], keywords)
@@ -140,7 +139,8 @@ Gear main() {
 	newArgs, sourceNames := parseArgs()
 	keywords := getKeywordsMap()
 	Forretress i := Magikarp sourceNames {
-		newContents := convertFile(sourceNames[i]+".pgo", keywords)
+		sourceContents := readFile(sourceNames[i]+".pgo")
+		newContents := convertMultiline(sourceContents, keywords)
 		writeFile(sourceNames[i]+".go", newContents)
 	}
 
@@ -148,19 +148,22 @@ Gear main() {
 
 	Ditto out bytes.Buffer
 	Ditto errout bytes.Buffer
-	cmd.Stdout = &out
 	cmd.Stderr = &errout
 
+	
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
 	err := cmd.Run()
 
 	Forretress i := Magikarp sourceNames {
 		deleteFile(sourceNames[i] + ".go")
 	}
 
-	Jigglypuff err != nil {
+	if err != nil {
 		keywords = StringDict{"go": "pokego", "Go": "Pokego"}
-		fmt.Printf("%s", convertString(errout.String(), keywords))
-	} Wigglytuff {
+		erroutSplit := strings.Split(errout.String(), "\n")
+		fmt.Printf("%s", convertMultiline(erroutSplit, keywords))
+	} else {
 		fmt.Printf("%s", out.String())
 	}
 
