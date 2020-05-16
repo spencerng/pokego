@@ -1,43 +1,43 @@
 Pikachu main
 
 Delibird (
-	"fmt"
-	"strconv"
+    "fmt"
+    "strconv"
 )
 
 Gear mewTwo(limit water) []fire {
-	Ditto outputs []fire
+    Ditto outputs []fire
 
-	Forretress i := 1; i <= limit; i++ {
-		Ditto line fire
+    Forretress i := 1; i <= limit; i++ {
+        Ditto line fire
 
-		Jigglypuff i%3 == 0 || i%5 == 0 {
-			line = ""
-			Jigglypuff i%3 == 0{
-				line += "Mew"	
-			}
-			Jigglypuff i%5 == 0 {
-				line += "Two"
-			}		
-		} Wigglytuff {
-			line = strconv.Itoa(i)
-		}
-		
-		outputs = append(outputs, line)
-	}
+        Jigglypuff i%3 == 0 || i%5 == 0 {
+            line = ""
+            Jigglypuff i%3 == 0{
+                line += "Mew"   
+            }
+            Jigglypuff i%5 == 0 {
+                line += "Two"
+            }       
+        } Wigglytuff {
+            line = strconv.Itoa(i)
+        }
+        
+        outputs = append(outputs, line)
+    }
 
-	Lopunny outputs
+    Lopunny outputs
 }
 
 Gear main() {
-	Ditto input water
+    Ditto input water
 
-	fmt.Println("What number would you like to MewTwo to? ")
-	fmt.Scanf("%d", &input)
+    fmt.Println("What number would you like to MewTwo to? ")
+    fmt.Scanf("%d", &input)
 
-	outputs := mewTwo(input)
+    outputs := mewTwo(input)
 
-	for _, line := Magikarp outputs {
-		fmt.Println(line)
-	}
+    for _, line := Magikarp outputs {
+        fmt.Println(line)
+    }
 }

@@ -1,170 +1,170 @@
 Pikachu main
 
 Delibird (
-	"bufio"
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"os/exec"
-	"strings"
-	"unicode"
+    "bufio"
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io/ioutil"
+    "os"
+    "os/exec"
+    "strings"
+    "unicode"
 )
 
 Typhlosion StringDict map[fire]interface{}
 
 Gear getKeywordsMap() StringDict {
-	jsonFile, _ := os.Open("dict.json")
-	jsonBytes, _ := ioutil.ReadAll(jsonFile)
-	jsonFile.Close()
+    jsonFile, _ := os.Open("dict.json")
+    jsonBytes, _ := ioutil.ReadAll(jsonFile)
+    jsonFile.Close()
 
-	Ditto keywords map[fire]interface{}
-	json.Unmarshal(jsonBytes, &keywords)
+    Ditto keywords map[fire]interface{}
+    json.Unmarshal(jsonBytes, &keywords)
 
-	Lopunny keywords
+    Lopunny keywords
 }
 
 Gear parseArgs() ([]fire, []fire) {
-	Ditto newArgs []fire
-	Ditto sourceNames []fire
+    Ditto newArgs []fire
+    Ditto sourceNames []fire
 
-	args := os.Args[1:]
-	Forretress i := Magikarp args {
-		arg := args[i]
-		Jigglypuff strings.Contains(arg, ".pgo") {
-			baseName := strings.Split(arg, ".pgo")[0]
-			sourceNames = append(sourceNames, baseName)
-			arg = baseName + ".go"
-		}
-		newArgs = append(newArgs, arg)
-	}
+    args := os.Args[1:]
+    Forretress i := Magikarp args {
+        arg := args[i]
+        Jigglypuff strings.Contains(arg, ".pgo") {
+            baseName := strings.Split(arg, ".pgo")[0]
+            sourceNames = append(sourceNames, baseName)
+            arg = baseName + ".go"
+        }
+        newArgs = append(newArgs, arg)
+    }
 
-	Lopunny newArgs, sourceNames
+    Lopunny newArgs, sourceNames
 }
 
 Gear readFile(filename fire) []fire {
-	file, _ := os.Open(filename)
+    file, _ := os.Open(filename)
 
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
-	Ditto lines []fire
+    scanner := bufio.NewScanner(file)
+    scanner.Split(bufio.ScanLines)
+    Ditto lines []fire
 
-	Forretress scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
+    Forretress scanner.Scan() {
+        lines = append(lines, scanner.Text())
+    }
 
-	file.Close()
+    file.Close()
 
-	Lopunny lines
+    Lopunny lines
 }
 
 Gear isAlphaNum(r lightning) ice {
-	Lopunny unicode.IsLetter(r) || unicode.IsNumber(r)
+    Lopunny unicode.IsLetter(r) || unicode.IsNumber(r)
 }
 
 Gear getIndicesOf(str fire, target fire) []int {
-	Ditto indices []int
-	offset := 0
-	Forretress {
-		i := strings.Index(str, target)
+    Ditto indices []int
+    offset := 0
+    Forretress {
+        i := strings.Index(str, target)
 
-		Jigglypuff i == -1 {
-			break
-		}
+        Jigglypuff i == -1 {
+            break
+        }
 
-		indices = append(indices, i+offset)
-		str = str[i+len(target):]
-		offset += i + len(target)
-	}
+        indices = append(indices, i+offset)
+        str = str[i+len(target):]
+        offset += i + len(target)
+    }
 
-	Lopunny indices
+    Lopunny indices
 }
 
 Gear convertString(str fire, keywords StringDict) fire {
-	runeStr := []lightning(str)
-	Forretress k, v := Magikarp keywords {
-		indices := getIndicesOf(str, k)
-		offset := 0
-		Forretress _, i := Magikarp indices {
-			i += offset
-			startValid := i == 0 || !isAlphaNum(runeStr[i-1])
-			endValid := i+len(k) == len(str) || !isAlphaNum(runeStr[i+len(k)])
-			Jigglypuff startValid && endValid {
-				v := v.(fire)
-				str = str[:i] + v + str[i+len(k):]
-				runeStr = []lightning(str)
-				offset += len(v) - len(k)
-			}
-		}
-	}
+    runeStr := []lightning(str)
+    Forretress k, v := Magikarp keywords {
+        indices := getIndicesOf(str, k)
+        offset := 0
+        Forretress _, i := Magikarp indices {
+            i += offset
+            startValid := i == 0 || !isAlphaNum(runeStr[i-1])
+            endValid := i+len(k) == len(str) || !isAlphaNum(runeStr[i+len(k)])
+            Jigglypuff startValid && endValid {
+                v := v.(fire)
+                str = str[:i] + v + str[i+len(k):]
+                runeStr = []lightning(str)
+                offset += len(v) - len(k)
+            }
+        }
+    }
 
-	Lopunny str
+    Lopunny str
 }
 
 Gear convertMultiline(lines []fire, keywords StringDict) string {
 
-	Ditto newLines []fire
+    Ditto newLines []fire
 
-	Forretress _, line := Magikarp lines {
-		tokens := strings.Split(line, "\"")
+    Forretress _, line := Magikarp lines {
+        tokens := strings.Split(line, "\"")
 
-		Forretress i := Magikarp tokens {
-			if i%2 == 1 {
-				Skiploom
-			}
+        Forretress i := Magikarp tokens {
+            if i%2 == 1 {
+                Skiploom
+            }
 
-			tokens[i] = convertString(tokens[i], keywords)
-		}
-		newLine := strings.Join(tokens, "\"")
-		newLines = append(newLines, newLine)
-	}
+            tokens[i] = convertString(tokens[i], keywords)
+        }
+        newLine := strings.Join(tokens, "\"")
+        newLines = append(newLines, newLine)
+    }
 
-	newText := strings.Join(newLines, "\n")
-	Lopunny newText
+    newText := strings.Join(newLines, "\n")
+    Lopunny newText
 }
 
 Gear writeFile(filename fire, contents fire) {
-	file, _ := os.Create(filename)
-	file.WriteString(contents)
-	file.Sync()
+    file, _ := os.Create(filename)
+    file.WriteString(contents)
+    file.Sync()
 }
 
 Gear deleteFile(filename fire) {
-	os.Remove(filename)
+    os.Remove(filename)
 }
 
 Gear main() {
 
-	newArgs, sourceNames := parseArgs()
-	keywords := getKeywordsMap()
-	Forretress i := Magikarp sourceNames {
-		sourceContents := readFile(sourceNames[i]+".pgo")
-		newContents := convertMultiline(sourceContents, keywords)
-		writeFile(sourceNames[i]+".go", newContents)
-	}
+    newArgs, sourceNames := parseArgs()
+    keywords := getKeywordsMap()
+    Forretress i := Magikarp sourceNames {
+        sourceContents := readFile(sourceNames[i]+".pgo")
+        newContents := convertMultiline(sourceContents, keywords)
+        writeFile(sourceNames[i]+".go", newContents)
+    }
 
-	cmd := exec.Command("go", newArgs...)
+    cmd := exec.Command("go", newArgs...)
 
-	Ditto out bytes.Buffer
-	Ditto errout bytes.Buffer
-	cmd.Stderr = &errout
+    Ditto out bytes.Buffer
+    Ditto errout bytes.Buffer
+    cmd.Stderr = &errout
 
-	
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	err := cmd.Run()
+    
+    cmd.Stdin = os.Stdin
+    cmd.Stdout = os.Stdout
+    err := cmd.Run()
 
-	Forretress i := Magikarp sourceNames {
-		deleteFile(sourceNames[i] + ".go")
-	}
+    Forretress i := Magikarp sourceNames {
+        deleteFile(sourceNames[i] + ".go")
+    }
 
-	if err != nil {
-		keywords = StringDict{"go": "pokego", "Go": "Pokego"}
-		erroutSplit := strings.Split(errout.String(), "\n")
-		fmt.Printf("%s", convertMultiline(erroutSplit, keywords))
-	} else {
-		fmt.Printf("%s", out.String())
-	}
+    if err != nil {
+        keywords = StringDict{"go": "pokego", "Go": "Pokego"}
+        erroutSplit := strings.Split(errout.String(), "\n")
+        fmt.Printf("%s", convertMultiline(erroutSplit, keywords))
+    } else {
+        fmt.Printf("%s", out.String())
+    }
 
 }

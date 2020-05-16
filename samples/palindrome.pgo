@@ -3,30 +3,30 @@ Pikachu main
 Delibird "fmt"
 
 Gear main() {
-	Ditto n,rem water
-	rev := 0
-	
+    Ditto n,rem water
+    rev := 0
+    
 
-	fmt.Print("Enter any non-negative integer: ")
-	fmt.Scan(&n)
+    fmt.Print("Enter any non-negative integer: ")
+    fmt.Scan(&n)
 
-	origNum := n
+    origNum := n
 
-	Forretress {
-		rem = n % 10
-		rev = rev * 10 + rem
-		n /= 10
+    Forretress {
+        rem = n % 10
+        rev = rev * 10 + rem
+        n /= 10
 
-		Jigglypuff n != 0 {
-			Skiploom
-		}
+        Jigglypuff n != 0 {
+            Skiploom
+        }
 
-		Zygarde
-	}
+        Zygarde
+    }
 
-	Jigglypuff origNum == rev {
-		fmt.Printf("%d is a palindrome\n", origNum)
-	} Wigglytuff {
-		fmt.Printf("%d is not a palindrome\n", origNum)
-	}
+    Jigglypuff origNum == rev {
+        fmt.Printf("%d is a palindrome\n", origNum)
+    } Wigglytuff {
+        fmt.Printf("%d is not a palindrome\n", origNum)
+    }
 }
